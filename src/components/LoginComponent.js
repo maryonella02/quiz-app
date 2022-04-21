@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import Alert from "@mui/material/Alert";
 import { Redirect } from 'react-router-dom';
-//import { Form, Field } from "react-final-form";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
@@ -36,9 +34,8 @@ class Login extends Component {
             loading: true,
         });
         this.form.validateAll();
-        const { dispatch, history } = this.props;
         if (this.checkBtn.context._errors.length === 0) {
-           this.props.createUser(this.state.name, this.state.surname)
+            this.props.createUser(this.state.name, this.state.surname)
                 .then(() => {
                     <Redirect to="/home" />
                     window.location.reload();
@@ -55,11 +52,20 @@ class Login extends Component {
         }
     }
 
- 
+
     render() {
         if (this.props.user.isAuthUser) {
             return <Redirect to="/home" />;
         }
+        const minMaxLength = (value) => {
+            if (value.length < 3 || value.length > 12) {
+                return (
+                    <div className="alert alert-danger" role="alert">
+                        The username must be between 3 and 12 characters.
+                    </div>
+                );
+            }
+        };
         const required = value => {
             if (!value) {
                 return (
@@ -69,76 +75,61 @@ class Login extends Component {
                 );
             }
         };
-        const error = () => {
-            if (this.props.user.error) {
-                return (
-                    <Alert severity="error" sx={{ mt: 1 }}>
-                        {this.props.user.error.response.message}
-                    </Alert>
-                );
-            } else {
-                return <div></div>;
-            }
-        };
         return (
-            <div className="col-md-12">
-        <div className="card card-container">
-                <h1>Please Log In</h1>
-                {error()}
-                <Form
-                    onSubmit={this.handleLogin}
-                    ref={c => { this.form = c; }}
-                >
-                    <div className="form-group">
-                        <label htmlFor="username">Name</label>
-                        <Input
-                            type="text"
-                            className="form-control"
-                            value={this.state.name}
-                            onChange={this.onChangeName}
-                            validations={[required]}
-                        />
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="password">Surname</label>
-                        <Input
-                            type="text"
-                            className="form-control"
-                            value={this.state.surname}
-                            onChange={this.onChangeSurname}
-                            validations={[required]}
-                        />
-                    </div>
-                    <div className="form-group">
-                        <button
-                            className="btn btn-primary btn-block"
-                            disabled={this.state.loading}
-                        >
-                            {this.state.loading && (
-                                <span className="spinner-border spinner-border-sm"></span>
-                            )}
-                            <span>Login</span>
-                        </button>
-                    </div>
-                    {this.props.user.error&& (
+            <div className="container">
+                <div className="row">
+                    <h1>Please Log In</h1>
+                    <Form
+                        onSubmit={this.handleLogin}
+                        ref={c => { this.form = c; }}
+                    >
                         <div className="form-group">
-                            <div className="alert alert-danger" role="alert">
-                                {this.props.user.error.response.message}
-                            </div>
+                            <label htmlFor="username">Name</label>
+                            <Input
+                                type="text"
+                                className="form-control"
+                                value={this.state.name}
+                                onChange={this.onChangeName}
+                                validations={[required, minMaxLength]}
+                            />
                         </div>
-                    )}
-                    <CheckButton
-                        style={{ display: "none" }}
-                        ref={c => { this.checkBtn = c; }}
-                    />
-                </Form>
-
-               
-            </div>
+                        <div className="form-group">
+                            <label htmlFor="password">Surname</label>
+                            <Input
+                                type="text"
+                                className="form-control"
+                                value={this.state.surname}
+                                onChange={this.onChangeSurname}
+                                validations={[required, minMaxLength]}
+                            />
+                        </div>
+                        <div className="form-group">
+                            <button
+                                className="btn btn-primary btn-block"
+                                disabled={this.state.loading}
+                            >
+                                {this.state.loading && (
+                                    <span className="spinner-border spinner-border-sm"></span>
+                                )}
+                                <span>Login</span>
+                            </button>
+                        </div>
+                        {this.props.user.error && (
+                            <div className="form-group">
+                                <div className="alert alert-danger" role="alert">
+                                    {this.props.user.error.response.message}
+                                </div>
+                            </div>
+                        )}
+                        <CheckButton
+                            style={{ display: "none" }}
+                            ref={c => { this.checkBtn = c; }}
+                        />
+                    </Form>
+                </div>
             </div>
         );
     }
-
 }
 
 export default Login;

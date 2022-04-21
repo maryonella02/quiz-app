@@ -4,6 +4,7 @@ import { DEV_TOKEN } from '../shared/variable';
 
 
 const usersUrl = baseUrl + "users/";
+const quizzesUrl = baseUrl + "quizzes/";
 
 const postOptions = (data) => {
     var acceptedHeaders = new Headers();
@@ -29,6 +30,16 @@ const postOptions = (data) => {
       method: "DELETE",
       headers: acceptedHeaders,
       redirect: "follow",
+    };
+  };
+
+  const getOptions = () => {
+    var myHeaders = new Headers();
+    myHeaders.append("X-Access-Token", DEV_TOKEN);
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Connection", "keep-alive");
+    return {
+      headers: myHeaders,
     };
   };
 
@@ -109,5 +120,47 @@ export const createUser = (name, surname) => (dispatch) => {
   
   export const deleteSpecificUser = () => ({
     type: ActionTypes.DELETE_USER,
+  });
+  
+  // .
+
+  export const fetchQuizzes = () => (dispatch) => {
+    dispatch(quizzesLoading(true));
+  
+    return fetch(quizzesUrl, getOptions())
+      .then(
+        (response) => {
+          if (response.ok) {
+            return response;
+          } else {
+            var error = new Error(
+              "Error" + response.status + ": " + response.statusText
+            );
+            error.response = response;
+            throw error;
+          }
+        },
+        (error) => {
+          var errmess = new Error(error.message);
+          throw errmess;
+        }
+      )
+      .then((response) => response.json())
+      .then((quizzes) => dispatch(addQuizzes(quizzes)))
+      .catch((error) => dispatch(quizzesFailed(error.message)));
+  };
+  
+  export const quizzesLoading = () => ({
+    type: ActionTypes.QUIZZES_LOADING,
+  });
+  
+  export const quizzesFailed = (errmess) => ({
+    type: ActionTypes.QUIZZES_FAILED,
+    payload: errmess,
+  });
+  
+  export const addQuizzes = (quizzes) => ({
+    type: ActionTypes.GET_QUIZZES,
+    payload: quizzes,
   });
   

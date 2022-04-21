@@ -2,25 +2,27 @@ import React, { Component } from "react";
 import { Switch, withRouter } from "react-router-dom";
 import {
   createUser,
-  deleteUser
+  deleteUser,
+  fetchQuizzes
 } from "../redux/ActionCreators";
 import { connect } from "react-redux";
 import Header from './HeaderComponent';
 import Home from './HomeComponent';
 import Quizzes from './QuizzesComponent';
-import AuthRoute from "../shared/AuthRoute";
 import Login from "./LoginComponent";
-import { Route } from "react-router-dom/cjs/react-router-dom.min";
+import { Route } from "react-router-dom";
 
 const mapStateToProps = (state) => {
   return {
-    user: state.user
+    user: state.user,
+    quizzes:state.quizzes
   };
 };
 
 const mapDispatchToProps = (dispatch) => ({
   deleteUser: (id) => dispatch(deleteUser(id)),
-  createUser: (name, surname) => dispatch(createUser(name, surname))
+  createUser: (name, surname) => dispatch(createUser(name, surname)),
+  fetchQuizzes: () =>  dispatch(fetchQuizzes()),
 });
 
 
@@ -29,9 +31,12 @@ class Main extends Component {
     super(props);
 
     this.state = {
-      user: this.props.user,
+      user: this.props.user
     };
   }
+  componentDidMount() {
+    this.props.fetchQuizzes();
+}
 
   render() {
     if (this.props.user.isAuthUser) {
@@ -40,19 +45,11 @@ class Main extends Component {
     return (
       <div className="App">
         <Switch >
-          <Route path="/login"><Login  user={this.props.user}    createUser={this.props.createUser}></Login></Route>
+          <Route path="/login"><Login user={this.props.user} createUser={this.props.createUser}></Login></Route>
           <Route path="/home"><Home></Home></Route>
-          {/* <AuthRoute
-            path="/" type="guest"   render ={Login}>
-          </AuthRoute>
-          <AuthRoute
-            path="/home" type="private"
-            render ={Home}
-          />
-          <AuthRoute
-            path="/quizzes" type="private"
-            render ={Quizzes}
-          /> */}
+          <Route path="/quizzes"><Quizzes
+                  quizzes={this.props.quizzes}
+            ></Quizzes></Route>
         </Switch >
       </div>
     );
