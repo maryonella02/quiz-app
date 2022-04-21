@@ -2,18 +2,17 @@ import { createStore, combineReducers, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
 import logger from "redux-logger";
 import { User } from "./users";
-import { createForms } from 'react-redux-form';
-import { InitialLogin } from "./forms";
 import { Quizzes } from "./quizzes";
+import { Quiz } from "./quiz";
+import { Answer } from "./answer";
 
 export const ConfigureStore = () => {
   const store = createStore(
     combineReducers({
       user: User,
       quizzes: Quizzes,
-      ...createForms({
-        login: InitialLogin
-    })
+      quiz: Quiz,
+      answer: Answer,
     }),
     applyMiddleware(thunk, logger)
   );

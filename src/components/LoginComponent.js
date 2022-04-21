@@ -58,12 +58,16 @@ class Login extends Component {
             loading: false,
           });
         });
+    } else {
+      this.setState({
+        loading: false,
+      });
     }
   }
 
   render() {
     if (this.props.user.isAuthUser) {
-      return <Redirect to="/home" />;
+      return <Redirect to="/quizzes" />;
     }
     const minMaxLength = (value) => {
       if (value.length < 3 || value.length > 12) {
@@ -86,7 +90,7 @@ class Login extends Component {
     return (
       <div className="container">
         <div className="row">
-          <h1>Please Log In</h1>
+          <h1>Please Register to Have Access to the Quizzes</h1>
           <Form
             onSubmit={this.handleLogin}
             ref={(c) => {
