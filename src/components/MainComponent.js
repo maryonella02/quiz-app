@@ -40,7 +40,7 @@ class Main extends Component {
     return (
       <div className="App">
         <Switch >
-          <Route path="/login"><Login></Login></Route>
+          <Route path="/login"><Login  user={this.props.user}    createUser={this.props.createUser}></Login></Route>
           <Route path="/home"><Home></Home></Route>
           {/* <AuthRoute
             path="/" type="guest"   render ={Login}>
