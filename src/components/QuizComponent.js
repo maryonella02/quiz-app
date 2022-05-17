@@ -36,11 +36,7 @@ class Quiz extends Component {
           <Card>
             <CardBody>
               <CardTitle> {this.props.quiz.title}</CardTitle>
-              <CardText>
-                {" "}
-                This quiz contains: {this.props.quiz.questions.length}{" "}
-                questions.
-              </CardText>
+              <CardText></CardText>
             </CardBody>
           </Card>
 

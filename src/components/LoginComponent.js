@@ -90,7 +90,7 @@ class Login extends Component {
     return (
       <div className="container">
         <div className="row">
-          <h1>Please Register to Have Access to the Quizzes</h1>
+          <h4>Please Register to Have Access to the Quizzes</h4>
           <Form
             onSubmit={this.handleLogin}
             ref={(c) => {
