@@ -8,6 +8,7 @@ import {
   Button,
 } from "reactstrap";
 import { NavLink } from "react-router-dom";
+import { Music } from "./MusicComponent";
 class Header extends Component {
   constructor(props) {
     super(props);
@@ -55,6 +56,7 @@ class Header extends Component {
                   </Nav>
                 </Collapse>
                 <div className="" navbar>
+                  <Music />
                   <Button outline onClick={this.Logout}>
                     <span className="fa fa-sign-in fa-lg"></span>Logout
                   </Button>
