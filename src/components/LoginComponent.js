@@ -119,7 +119,7 @@ class Login extends Component {
             </div>
             <div className="form-group">
               <button
-                className="btn btn-primary btn-block"
+                className="btn btn-primary btn-block mm-1"
                 disabled={this.state.loading}
               >
                 {this.state.loading && (

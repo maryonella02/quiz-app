@@ -104,3 +104,6 @@ address {
   flex-direction: row;
   flex-wrap: wrap;
 }
+.flex{
+  display: flex;
+}

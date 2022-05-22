@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 
-class Music extends Component {
+class MusicButton extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -8,7 +8,7 @@ class Music extends Component {
       pause: true,
     };
     this.url =
-      "https://drive.google.com/file/d/1Fd-xxuLWWDkBd2HCdYB2gC0II7f4Lf-C/view?usp=sharing";
+      "https://docs.google.com/uc?export=open&id=1Fd-xxuLWWDkBd2HCdYB2gC0II7f4Lf-C";
     this.audio = new Audio(this.url);
   }
 
@@ -25,12 +25,11 @@ class Music extends Component {
   render() {
     return (
       <div>
-        <button className="link" onClick={this.toogle}>
+        <div active onClick={this.toogle}>
           {this.state.play ? <div>Pause</div> : <div>Play</div>}
-        </button>
+        </div>
       </div>
     );
   }
 }
-
-export default Music;
+export default MusicButton;

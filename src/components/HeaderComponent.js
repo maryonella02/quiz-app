@@ -8,18 +8,33 @@ import {
   Button,
 } from "reactstrap";
 import { NavLink } from "react-router-dom";
-import { Music } from "./MusicComponent";
+import MusicButton from "./MusicComponent";
+import { deleteUser } from "../redux/ActionCreators";
+import { withRouter } from "react-router-dom";
+import { connect } from "react-redux";
+import Login from "./LoginComponent";
+import { Route } from "react-router-dom";
+
+const mapStateToProps = (state) => {
+  return {
+    user: state.user,
+  };
+};
+
+const mapDispatchToProps = (dispatch) => ({
+  deleteUser: (id) => dispatch(deleteUser(id)),
+});
+
 class Header extends Component {
   constructor(props) {
     super(props);
 
     this.toggleNav = this.toggleNav.bind(this);
-    this.Logout = this.Logout.bind(this);
+    this.logout = this.logout.bind(this);
 
     this.state = {
       isNavOpen: false,
       user: this.props.user,
-      deleteUser: this.props.deleteUser,
     };
   }
 
@@ -28,10 +43,9 @@ class Header extends Component {
       isNavOpen: !this.state.isNavOpen,
     });
   }
-  Logout() {
+  logout() {
     this.props.deleteUser(this.props.user.id);
   }
-
   render() {
     if (this.props.user.isAuthUser)
       return (
@@ -55,9 +69,11 @@ class Header extends Component {
                     </NavItem>
                   </Nav>
                 </Collapse>
-                <div className="" navbar>
-                  <Music />
-                  <Button outline onClick={this.Logout}>
+                <div className="flex" navbar>
+                  <Button active className="m-1">
+                    <MusicButton />
+                  </Button>
+                  <Button outline onClick={this.logout} className="m-1">
                     <span className="fa fa-sign-in fa-lg"></span>Logout
                   </Button>
                 </div>
@@ -66,6 +82,9 @@ class Header extends Component {
           </Navbar>
         </div>
       );
+    else {
+      return <Route path="/"></Route>;
+    }
   }
 }
-export default Header;
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Header));

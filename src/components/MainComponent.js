@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Switch, withRouter } from "react-router-dom";
-import { fetchQuizzes, deleteUser } from "../redux/ActionCreators";
+import { fetchQuizzes } from "../redux/ActionCreators";
 import { connect } from "react-redux";
 import Header from "./HeaderComponent";
 import Home from "./HomeComponent";
@@ -21,7 +21,6 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => ({
   fetchQuizzes: () => dispatch(fetchQuizzes()),
-  deleteUser: (id) => dispatch(deleteUser(id)),
 });
 
 class Main extends Component {
@@ -35,7 +34,7 @@ class Main extends Component {
   render() {
     return (
       <div>
-        <Header user={this.props.user} deleteUser={this.props.deleteUser} />
+        <Header user={this.props.user} />
         <ProvideAuth>
           <div className="App">
             <TransitionGroup>
