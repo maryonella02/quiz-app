@@ -32,16 +32,18 @@ class Quiz extends Component {
     const action = this.state.quizActions;
     if (action === VIEW_QUIZ)
       return (
-        <div className="quiz">
-          <Card>
-            <CardBody>
-              <CardTitle> {this.props.quiz.title}</CardTitle>
-              <CardText></CardText>
+        <div className="quiz container">
+          <Card className="row">
+            <CardBody className="col-md-12">
+              <CardTitle>Title: {this.props.quiz.quiz.title}</CardTitle>
+              <CardText>This page is still under development</CardText>
             </CardBody>
           </Card>
-
-          <Button onClick={() => this.setState({ quizStage: DO_QUIZ })}>
-            Start
+          <Button
+            onClick={() => this.props.history.push("/quizzes")}
+            className="m-1"
+          >
+            Go back to Quizzes
           </Button>
         </div>
       );
